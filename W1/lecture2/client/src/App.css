@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+  margin:0px;
+  padding:0px;
+}
+
+.list {
+  display:flex;
+  justify-content: center;
+}
+

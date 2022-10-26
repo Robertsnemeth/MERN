@@ -1,20 +1,32 @@
 
 import './App.css';
-import React, {useState} from 'react';
-import Form from './components/Form'
+import React from 'react';
+import Increment from './components/Increment'
+import Decrement from './components/Decrement'
+import Pokemon from './components/Pokemon'
 
 
 function App() {
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [userNames, setUserNames] = useState([])
+  const noMondays = new Promise( (resolve, reject) => {
+    if(new Date().getDay() !== 1) {
+        resolve("Good, it's not Monday!");
+    } else {
+        reject("Someone has a case of the Mondays!");
+    }
+});
+
+noMondays.then( res => console.log(res) ).catch( err => console.log(err) );
+
+
+
 
   return (
     <div>
       Hello
-      <Form name={name} setName={setName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} userNames={userNames} setUserNames={setUserNames}/>
+      <Increment/>
+      <Decrement/>
+      <Pokemon/>
     </div>
   );
 }

@@ -10,14 +10,14 @@ const Form = (props) => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        setCurrentTasks([
-            ...currentTasks,{
-                task: task,
-                completed: false
-    }])
+        const newTask = {
+            task: task,
+            completed: false
+        }
+        setCurrentTasks([...currentTasks, newTask])
+        localStorage.setItem("tasks", JSON.stringify([...currentTasks, newTask]))
         setTask("")
     }
-
 
   return (
     <div>

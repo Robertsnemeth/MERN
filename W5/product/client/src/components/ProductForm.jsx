@@ -1,28 +1,19 @@
 import React, {useState} from 'react';
-import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 
-const ProductForm = () => {
+const ProductForm = (props) => {
 
-    const [ name, setName ] = useState("");
-    const [ price, setPrice ] = useState(0);
-    const [ description, setDescription ] = useState("");
+    const { initialName, initialPrice, initialDescription, onSubmitProp, formErrors } = props;
+
+    const [ name, setName ] = useState(initialName);
+    const [ price, setPrice ] = useState(initialPrice);
+    const [ description, setDescription ] = useState(initialDescription);
+
     const navigate = useNavigate();
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/api/product", {
-            name,
-            price,
-            description
-        })
-        .then(res => {console.log(res); console.log(res.data)})
-        .catch(err => console.log(err));
-        setName("");
-        setPrice("");
-        setDescription("");
-        navigate('/')
+        onSubmitProp({name, price, description });
     };
 
     const handleName = (e) => {
@@ -40,10 +31,12 @@ const ProductForm = () => {
     <div className="bg-slate-500 text-white p-4 h-72">
         <h1>Product Manager</h1>
         <form onSubmit={handleSubmit} className="flex flex-col items-center m-5">
+            {/* {formErrors.map((err, index) => <p key={index} style={{color:"red"}}>{err}</p>)} */}
             <div style= {{
                 margin: "10px",
                 alignSelf: "flex-start"
             }}>
+                {formErrors.name && <p className="text-center text-red-500">{formErrors.name.message}</p>}
                 <label htmlFor="name">Name: </label>
                 <input id="name" type="text" onChange={handleName} value={name} className="bg-slate-500 rounded border"/>
             </div>
@@ -51,6 +44,7 @@ const ProductForm = () => {
                 margin: "10px",
                 alignSelf: "flex-start"
             }}>
+                {formErrors.price && <p className="text-center text-red-500">{formErrors.price.message}</p>}
                 <label htmlFor="price">Price: </label>
                 <input id="price" type="text" onChange={handlePrice} value={price} className="bg-slate-500 rounded border"/>
             </div>
@@ -58,10 +52,11 @@ const ProductForm = () => {
                 margin: "10px",
                 alignSelf: "flex-start"
             }}>
+                {formErrors.description && <p className="text-center text-red-500">{formErrors.description.message}</p>}
                 <label htmlFor="desc">Description: </label>
                 <textarea id="desc" type="text" onChange={handleDescription} value={description} className="bg-slate-500 rounded border"></textarea>
             </div>
-            <button className="rounded border border-black p-2 hover:bg-slate-700">Create</button>
+            <button className="rounded border border-black p-2 hover:bg-slate-700">Submit</button>
         </form>
         <Link to={'/'} className="underline">All products</Link>
     </div>

@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import DeleteButton from './DeleteButton';
 
 const Products = (props) => {
 
   const { allProducts, setAllProducts} = props;
-
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:8000/api/product/${id}`)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-  };
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/product")
@@ -27,7 +22,7 @@ const Products = (props) => {
             <p>Product Name: <Link to={`/product/single/${product._id}`} className="underline">{product.name}</Link></p>
             <p>Price: ${product.price}</p>
             <p>Proudct Description: {product.description}</p>
-            <button className="rounded border border-black bg-red-400 hover:bg-red-600 p-2" onClick={(e) => {handleDelete(product._id)}}>Delete</button>
+            <DeleteButton id={product._id}/>
           </div>
         )
       })}

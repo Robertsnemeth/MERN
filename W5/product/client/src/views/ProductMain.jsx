@@ -8,7 +8,9 @@ const ProductMain = () => {
 
   return (
     <div>
-        {update ? <UpdateForm/> : <Product update={update} setUpdate={setUpdate}/> }
+        {update ? <UpdateForm/> : 
+        <Product update={update} 
+        setUpdate={setUpdate} /> }
     </div>
   )
 }

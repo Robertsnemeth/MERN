@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Link, useNavigate} from 'react-router-dom';
 import { useParams } from 'react-router';
+import ProductForm from './ProductForm'
 
 const UpdateForm = () => {
 
     const [ name, setName ] = useState("");
     const [ price, setPrice ] = useState(0);
     const [ description, setDescription ] = useState("");
+    const [loaded, setLoaded ] = useState(false);
+    const [ errors, setErrors ] = useState({});
 
-    const navigate = useNavigate();
     const {id} = useParams();
 
     useEffect(() => {
@@ -18,63 +19,31 @@ const UpdateForm = () => {
                 setName(res.data.product.name);
                 setPrice(res.data.product.price);
                 setDescription(res.data.product.description);
+                setLoaded(true);
             })
             .catch(err => console.log(err))
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.put(`http://localhost:8000/api/product/${id}`, {
-            name,
-            price,
-            description
-        })
-        .then(res => {console.log(res.data.product); console.log(res.data.product)})
-        .catch(err => console.log(err));
-        navigate('/');
-    };
-
-    const handleName = (e) => {
-        setName(e.target.value);
-    };
-
-    const handlePrice = (e) => {
-        setPrice(e.target.value);
-    };
-    const handleDescription = (e) => {
-        setDescription(e.target.value);
+    const handleSubmit = (productParam) => {
+        axios.put(`http://localhost:8000/api/product/${id}`, productParam)
+            .then(res => {console.log(res.data.product); console.log(res.data.product)})
+            .catch(err =>{
+                console.log(err.response.data.error.errors);
+                const errRes = err.response.data.error.errors;
+                setErrors(errRes);
+                console.log(err)});
     };
     
    return (
     <div >
         <h1 className="text-4xl m-3">Product Manager</h1>
-        <div className="bg-slate-500 text-white p-4">
-            <form onSubmit={handleSubmit} className="flex flex-col items-center text-black">
-                <div style= {{
-                    margin: "10px",
-                    alignSelf: "flex-start"
-                }}>
-                    <label htmlFor="">Name: </label>
-                    <input type="text" onChange={handleName} value={name} />
-                </div>
-                <div style= {{
-                    margin: "10px",
-                    alignSelf: "flex-start"
-                }}>
-                    <label htmlFor="">Price: </label>
-                    <input type="text" onChange={handlePrice} value={price} />
-                </div>
-                <div style= {{
-                    margin: "10px",
-                    alignSelf: "flex-start"
-                }}>
-                    <label htmlFor="">Description: </label>
-                    <textarea type="text" onChange={handleDescription} value={description} ></textarea>
-                </div>
-                <button className="border border-black rounded p-2 hover:bg-slate-700">Update</button>
-            </form>
-        </div>
-        <Link to={'/'} className="underline hover:bg-slate-400">All products</Link>
+        { loaded && <ProductForm
+        onSubmitProp={handleSubmit}
+        initialName={name}
+        initialPrice={price}
+        initialDescription={description}
+        formErrors={errors}/>
+        }
     </div>
   )
 }

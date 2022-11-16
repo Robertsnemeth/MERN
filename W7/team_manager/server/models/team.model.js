@@ -8,7 +8,12 @@ const TeamSchema = new mongoose.Schema({
     },
     position: {
         type: String,
+    },
+    gameStatus: {
+        type: String,
+        default: "Undecided",
     }}, 
+
     {timestamps: true});
 
     module.exports = mongoose.model("Team", TeamSchema);

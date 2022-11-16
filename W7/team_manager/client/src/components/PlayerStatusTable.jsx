@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import StatusButton from './StatusButton';
 import { useParams } from 'react-router';
+import axios from 'axios';
 
-const PlayerStatusTable = ({ allPlayers}) => {
+const PlayerStatusTable = ({ allPlayers, setCurrentPlayers }) => {
 
     const { game } = useParams();
+
+    // const handleStatusClick = (status, id) => {
+    //     axios.put(`http://localhost:8000/api/team/${id}`, status)
+    //         .then(res => console.log(res))
+    //         .catch(err => console.log(err))
+    // };
 
   return (
     <div className=''>
@@ -22,15 +29,31 @@ const PlayerStatusTable = ({ allPlayers}) => {
                     <tr>
                         <td className="border border-black p-3 w-48">{player.name}</td>
                         <td className=" p-3 w-96 flex gap-1 justify-center">
-                            <StatusButton currentColor="bg-green-500" 
-                            status="Playing"
-                            isClicked={false}/>
-                            <StatusButton currentColor="bg-red-500" 
-                            status="Inactive"
-                            isClicked={false}/>
-                            <StatusButton currentColor="bg-yellow-500" 
-                            status="Undecided"
-                            isClicked={true}/>
+                            
+                            {player.gameStatus === "Playing" && 
+                                <div className="flex gap-2">
+                                    <StatusButton currentColor="bg-green-500" status="Playing" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="" status="Inactive" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="" status="Undecided" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/> 
+                                </div> 
+                            }   
+
+                            {player.gameStatus === "Inactive" && 
+                                <div className="flex gap-2">
+                                    <StatusButton currentColor="" status="Playing" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="bg-red-500" status="Inactive" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="" status="Undecided" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/> 
+                                </div> 
+                            }   
+
+                            {player.gameStatus === "Undecided" && 
+                                <div className="flex gap-2">
+                                    <StatusButton currentColor="" status="Playing" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="" status="Inactive" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/>
+                                    <StatusButton currentColor="bg-yellow-500" status="Undecided" playerId={player._id} setCurrentPlayers={setCurrentPlayers}/> 
+                                </div> 
+                            }       
+                            
                         </td>
                     </tr>
                 </tbody>

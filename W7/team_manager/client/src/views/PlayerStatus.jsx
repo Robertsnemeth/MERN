@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PlayerStatusTable from '../components/PlayerStatusTable'
 import { Link } from 'react-router-dom';
 
-const PlayerStatus = ({ allPlayers }) => {
+const PlayerStatus = ({ allPlayers, setCurrentPlayers }) => {
 
 const [ gameNum, setGameNum ] = useState(1);
 
@@ -21,11 +21,13 @@ const handleLinkClick = (game) => {
         </div>
             { gameNum === 1 && <PlayerStatusTable
               allPlayers={allPlayers}
-              className=""/>}
+              setCurrentPlayers={setCurrentPlayers}/>}
             {gameNum === 2 && <PlayerStatusTable
-              allPlayers={allPlayers}/>}
+              allPlayers={allPlayers}
+              setCurrentPlayers={setCurrentPlayers}/>}
             { gameNum === 3 && <PlayerStatusTable
-              allPlayers={allPlayers}/>}
+              allPlayers={allPlayers}
+              setCurrentPlayers={setCurrentPlayers}/>}
     </div>
   )
 }

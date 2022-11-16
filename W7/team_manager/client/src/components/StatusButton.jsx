@@ -1,21 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const StatusButton = ({currentColor, status, isClicked }) => {
+const StatusButton = ({currentColor, status, isClicked, playerId, setCurrentPlayers }) => {
 
-    const [clicked, setClicked ] = useState(isClicked);
+    // const [clicked, setClicked ] = useState(isClicked);
 
-    const handleStatusChange = (e) => {
-        setClicked(!clicked);
-        console.log(clicked)
-    }
+    // const handleStatusChange = (e) => {
+    //     setClicked(!clicked);
+    //     console.log(clicked)
+    // }
+
+    const handleStatusClick = (playerStatus, id) => {
+      console.log(playerStatus, id)
+      axios.put(`http://localhost:8000/api/team/${id}`, {gameStatus: playerStatus})
+          .then(res => {
+            console.log(res);
+            setCurrentPlayers(Math.random());
+            })
+          .catch(err => console.log(err))
+  };
 
   return (
     <div>
-        {
-            clicked ? 
-            <button onClick={handleStatusChange} className={`border border-black rounded p-1 ${currentColor}`}>{status}</button> :
-            <button onClick={handleStatusChange} className={`border border-black rounded p-1`}>{status}</button>
-        }
+      <button onClick={() => {handleStatusClick( status, playerId )}} className={`border border-black rounded p-1 ${currentColor} hover:border-gray-200`}>{status}</button> 
     </div>
   )
 }

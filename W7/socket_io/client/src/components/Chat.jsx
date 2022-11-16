@@ -8,11 +8,13 @@ const Chat = () => {
     useEffect(() => {
 
         console.log("Is this running?");
-        socket.on("Welcome", data => console.log(data));
+        socket.on("Welcome", (data) => console.log(data));
 
         return () => socket.disconnect(true);
 
     }, []);
+
+    socket.emit("custom event", 10, "Hi", {a:"a"});
 
   return (
     <div>Chat and socket test</div>

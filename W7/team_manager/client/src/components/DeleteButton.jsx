@@ -7,13 +7,13 @@ const DeleteButton = ({ id, setCurrentPlayers }) => {
         axios.delete(`http://localhost:8000/api/team/${id}`)
             .then(res => {
                 console.log(res); 
-                setCurrentPlayers("delete");
+                setCurrentPlayers(Math.random());
             })
             .catch(err => console.log(err));
     };
 
     const handleClick = (e) => {
-        alert("Are you sure you want to delete this player?");
+        alert("Are you sure you want to delete this pet?");
         handleDelete();
     }
     

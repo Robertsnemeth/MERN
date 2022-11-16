@@ -21,7 +21,7 @@ const PlayerMain = () => {
     <div>
         <Routes>
             <Route element={<PlayerList allPlayers={allPlayers} setCurrentPlayers={setCurrentPlayers}/>} path="/list"/>
-            <Route element={<PlayerStatus allPlayers={allPlayers}/>} path="/status/game/:game"/>
+            <Route element={<PlayerStatus allPlayers={allPlayers} setCurrentPlayers={setCurrentPlayers}/>} path="/status/game/:game"/>
             <Route element={<PlayerForm setCurrentPlayers={setCurrentPlayers}/>} path="/add/player"/>
         </Routes>
     </div>

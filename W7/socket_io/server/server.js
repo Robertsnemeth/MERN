@@ -21,7 +21,8 @@ const io = socket(server,{
 
 io.on("connection", socket => {
     console.log("Nice to meet you.(shake hand)", socket.id);
-    socket.on("Welcome", data => {
-        socket.emit("Welcome", data);
+    socket.on("custom event", (number, string, obj) => {
+        console.log(number, string, obj)
     });
+    socket.emit("Welcome", console.log("Hello World")}
 });
